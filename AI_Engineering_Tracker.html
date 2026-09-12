@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATC — 12-Month Data → AI Engineering Tracker</title>
+<style>
+:root{
+  --navy:#0a1628; --navy2:#0f2038; --gold:#d4af37; --gold2:#f0d98c;
+  --ink:#f1f5fa; --muted:#93a5bd; --card:#101f36; --line:#1e3354;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--ink);color:var(--navy);font-family:"Segoe UI",system-ui,-apple-system,sans-serif;min-height:100vh}
+/* ===== background fx ===== */
+.bg{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.55;
+  background:
+   radial-gradient(circle at 15% 20%, rgba(59,130,246,.12), transparent 40%),
+   radial-gradient(circle at 85% 75%, rgba(168,85,247,.10), transparent 40%),
+   radial-gradient(circle at 70% 15%, rgba(34,197,94,.07), transparent 35%);}
+#net{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5}
+/* ===== layout ===== */
+.wrap{position:relative;z-index:1;max-width:1080px;margin:0 auto;padding:0 20px 90px}
+/* ===== header ===== */
+header{text-align:center;padding:64px 20px 34px}
+.crest{font-size:64px;filter:drop-shadow(0 0 18px rgba(212,175,55,.45));animation:float 4s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+h1{font-size:clamp(26px,5vw,44px);letter-spacing:3px;margin-top:10px;
+  background:linear-gradient(180deg,#000000 30%,var(--gold2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.tag{color:var(--gold);letter-spacing:6px;font-size:13px;margin-top:10px;text-transform:uppercase;color:#000000}
+.sub{color:var(--muted);margin-top:14px;font-size:15px;max-width:640px;margin-inline:auto;line-height:1.6}
+/* ===== progress ===== */
+.progress-box{position:sticky;top:0;z-index:10;background:rgba(246, 250, 255, 0.92);backdrop-filter:blur(8px);
+  border:1px solid var(--line);border-radius:14px;padding:16px 20px;margin:28px 0 30px;box-shadow:0 8px 30px rgba(0,0,0,.4)}
+.p-row{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px}
+.p-label{font-size:12px;letter-spacing:2px;color:#000000;text-transform:uppercase}
+.p-pct{font-size:26px;font-weight:700;color:var(--gold)}
+.p-bar{height:10px;background:rgba(192, 217, 255, 0.92);border-radius:99px;margin-top:10px;overflow:hidden;border:1px solid var(--line)}
+.p-fill{height:100%;width:0%;border-radius:99px;transition:width .5s ease;
+  background:linear-gradient(90deg,#22c55e,#3b82f6,#a855f7,#d4af37)}
+.p-stats{display:flex;gap:16px;margin-top:8px;font-size:12px;color:#000000;flex-wrap:wrap}
+/* ===== legend ===== */
+.legend{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:26px}
+.chip{font-size:12px;letter-spacing:1px;padding:6px 14px;border-radius:99px;border:1px solid var(--line);
+  background:rgba(121, 155, 207, 0.92);color:#000000;font-weight:700;cursor:pointer;transition:.2s;text-transform:uppercase}
+.chip.active{color:#fff;border-color:var(--gold)}
+/* ===== month cards ===== */
+.month{background:var(--card);border:1px solid var(--line);border-radius:16px;margin-bottom:16px;overflow:hidden;transition:border-color .2s}
+.month:hover{border-color:#2c4a77}
+.m-head{display:flex;align-items:center;gap:14px;padding:18px 20px;cursor:pointer;user-select:none;background:rgba(217, 232, 255, 0.92)}
+.m-num{width:46px;height:46px;min-width:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:18px;color:#081018}
+.m-title{flex:1;min-width:0}
+.m-title h3{font-size:17px}
+.m-title .lvl{font-size:10px;letter-spacing:2px;color: #000000;text-transform:uppercase}
+.m-badge{font-size:11px;color:#000000;white-space:nowrap}
+.m-check{width:26px;height:26px;min-width:26px;border-radius:8px;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:15px;color:transparent;transition:.2s}
+.m-check.done{background:var(--gold);border-color:var(--gold);color:#081018}
+.m-arrow{transition:transform .3s;color:var(--muted)}
+.month.open .m-arrow{transform:rotate(180deg)}
+.m-body{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.m-inner{padding:0 20px 22px;border-top:1px solid var(--line);background-color: aliceblue;}
+.m-topics{color:#000000;font-size:14px;line-height:1.7;padding:16px 0 4px}
+.m-topics b{color:#000000}
+.week{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px dashed var(--line)}
+.week:last-of-type{border-bottom:none}
+.w-name{min-width:74px;font-size:12px;font-weight:700;letter-spacing:1px;color:var(--gold);padding-top:2px}
+.w-text{font-size:14px;line-height:1.55;flex:1}
+.w-box{width:20px;height:20px;min-width:20px;margin-top:2px;border-radius:6px;border:2px solid var(--line);cursor:pointer;position:relative;transition:.15s}
+.w-box:hover{border-color:var(--gold)}
+.w-box.done{background:var(--gold);border-color:var(--gold)}
+.w-box.done::after{content:"✓";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:12px;color:#081018;font-weight:800}
+.m-meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.pill{font-size:12px;padding:6px 12px;border-radius:99px;background:var(--navy2);border:1px solid var(--line);color:var(--muted)}
+.pill b{color:var(--ink);font-weight:600}
+.m-bar{height:5px;background:var(--navy2);border-radius:99px;margin-top:14px;overflow:hidden}
+.m-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .4s}
+/* ===== team ===== */
+.team{margin-top:56px;text-align:center}
+.team h2{font-size:13px;letter-spacing:4px;color:var(--muted);text-transform:uppercase;margin-bottom:24px}
+.t-grid{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;}
+.t-card{background:#071429;border:1px solid var(--line);border-radius:16px;padding:26px 30px;min-width:230px;transition:.25s}
+.t-card:hover{transform:translateY(-5px);border-color:var(--gold);box-shadow:0 12px 34px rgba(212,175,55,.15)}
+.avatar{width:64px;height:64px;border-radius:50%;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;
+  font-size:24px;font-weight:800;color:#081018;background:linear-gradient(135deg,var(--gold),var(--gold2))}
+.t-card h3{font-size:16px;margin-bottom:5px}
+.t-card p{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--gold)}
+footer{text-align:center;color:var(--muted);font-size:12px;margin-top:60px;letter-spacing:1px}
+.btn-row{display:flex;gap:10px;justify-content:center;margin-top:18px;flex-wrap:wrap}
+button.reset{background:#ffa5a5;border:1px solid var(--line);color:#000000;padding:8px 18px;border-radius:99px;font-size:12px;cursor:pointer;transition:.2s}
+button.reset:hover{border-color:#ef4444;color:#ef4444}
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<canvas id="net"></canvas>
+
+<div class="wrap">
+  <header>
+    <div class="crest"><img src="ATC_Logo_1.png" alt="ATC_Logo" style="width:100px;height:100px;"> </div>
+    <h1>ADARSH TECH CLUB</h1>
+    <div class="tag">Learn · Build · Innovate</div>
+    <p class="sub">12-Month Data → AI Engineering Program — 4 Levels · 12 Months · 12 Projects · 1 Capstone.
+    Track your weekly progress below. Your checks are saved in this browser.</p>
+  </header>
+
+  <div class="progress-box">
+    <div class="p-row">
+      <span class="p-label">Overall Progress</span>
+      <span class="p-pct" id="overallPct">0%</span>
+    </div>
+    <div class="p-bar"><div class="p-fill" id="overallFill"></div></div>
+    <div class="p-stats"><span id="statTasks"></span><span id="statMonths"></span></div>
+    <div class="btn-row"><button class="reset" onclick="resetAll()">Reset all progress</button></div>
+  </div>
+
+  <div class="legend" id="legend"></div>
+  <div id="months"></div>
+
+  <section class="team">
+    <h2 style="color: black;">Program Leadership</h2>
+    <div class="t-grid">
+      <div class="t-card"><div class="avatar"><img src="Soam.jpeg" style="width:95px;height:90px;border-radius: 50%;"></div><h3 style="color: aliceblue;">Soumyadarshan Dash</h3><p>Lead</p></div>
+      <div class="t-card"><div class="avatar"><img src="Me.jpeg" style="width:95px;height:90px;border-radius: 50%;"></div><h3 style="color: aliceblue;">Laxmipriya Sutar</h3><p>Co-Lead</p></div>
+      <div class="t-card"><div class="avatar"><img src="Sai.jpeg" style="width:95px;height:90px;border-radius: 50%;"></div><h3 style="color: aliceblue;">Soumyasai Tripathy</h3><p>Co-Lead</p></div>
+    </div>
+  </section>
+
+  <footer style="color: #000000;">. © Adarsh Tech Club ·</footer>
+</div>
+
+<script>
+const MONTHS = [{"n": 1, "level": "DATA", "color": "#22c55e", "title": "Foundations", "topics": "Python (core + engineering) \u2192 SQL \u2192 PostgreSQL \u2192 Git/GitHub \u2192 HTTP/REST/JSON \u2192 basic statistics", "tools": "Python \u00b7 Pandas \u00b7 NumPy \u00b7 PostgreSQL \u00b7 Git", "project": "API \u2192 Python \u2192 PostgreSQL \u2192 SQL analytics", "weeks": [{"w": "Week 1", "t": "Python core: functions, OOP, error handling, file I/O"}, {"w": "Week 2", "t": "Advanced SQL + PostgreSQL: JOINs, CTEs, window functions, schema design"}, {"w": "Week 3", "t": "Build: call/scrape an API, load into PostgreSQL, write 10+ analytical queries"}, {"w": "Week 4", "t": "Productionize: GitHub repo, README, documented queries + insights report"}]}, {"n": 2, "level": "DATA", "color": "#22c55e", "title": "Data Engineering Core", "topics": "ETL vs ELT \u2192 batch processing \u2192 data formats (CSV/JSON/Parquet) \u2192 validation & idempotent pipelines \u2192 data warehouse vs lake \u2192 Airflow \u2192 Docker", "tools": "Airflow \u00b7 Docker \u00b7 Pandas \u00b7 SQL", "project": "Automated ETL Pipeline (files/APIs \u2192 transform \u2192 PostgreSQL, Airflow-orchestrated, in Docker)", "weeks": [{"w": "Week 1", "t": "ETL/ELT concepts, batch processing, data formats, validation"}, {"w": "Week 2", "t": "Airflow DAGs, operators, scheduling, retries + Docker fundamentals"}, {"w": "Week 3", "t": "Build: 3+ task DAG with dependencies, containerize the pipeline"}, {"w": "Week 4", "t": "Productionize: logging + retry logic, GitHub, demo"}]}, {"n": 3, "level": "DATA", "color": "#22c55e", "title": "Big Data & Streaming", "topics": "Kafka \u2192 event-driven architecture \u2192 Spark/PySpark \u2192 NoSQL (MongoDB/Cassandra) \u2192 CDC concepts", "tools": "Kafka \u00b7 PySpark \u00b7 MongoDB/Cassandra", "project": "Real-Time Data Platform (API \u2192 Kafka \u2192 Spark \u2192 DB \u2192 live dashboard)", "weeks": [{"w": "Week 1", "t": "Kafka: topics, partitions, producers/consumers, consumer groups"}, {"w": "Week 2", "t": "PySpark DataFrames, Spark SQL, partitions, joins, caching"}, {"w": "Week 3", "t": "Build: produce/consume messages, 3 PySpark transformations, load to NoSQL + SQL"}, {"w": "Week 4", "t": "Productionize: live dashboard, GitHub, demo"}]}, {"n": 4, "level": "INTELLIGENCE", "color": "#eab308", "title": "Analytics + Statistics", "topics": "EDA \u2192 probability & distributions \u2192 hypothesis testing \u2192 A/B testing \u2192 visualization \u2192 Power BI \u2192 business KPIs", "tools": "Pandas \u00b7 Matplotlib/Plotly \u00b7 Power BI", "project": "BI System (data \u2192 cleaning \u2192 analysis \u2192 dashboard \u2192 business recommendations)", "weeks": [{"w": "Week 1", "t": "EDA with Pandas; cleaning: missing values, outliers"}, {"w": "Week 2", "t": "Probability, distributions, hypothesis testing (t-test, p-values, CI)"}, {"w": "Week 3", "t": "Build: full EDA on messy dataset + one end-to-end hypothesis test"}, {"w": "Week 4", "t": "Productionize: KPI dashboard with filters, written recommendations"}]}, {"n": 5, "level": "INTELLIGENCE", "color": "#eab308", "title": "Machine Learning", "topics": "Train/val/test \u2192 cross-validation \u2192 preprocessing \u2192 regression \u2192 classification \u2192 ensembles (XGBoost/LightGBM) \u2192 clustering \u2192 metrics \u2192 tuning", "tools": "scikit-learn \u00b7 XGBoost/LightGBM", "project": "End-to-End ML Prediction System (preprocessing \u2192 training \u2192 evaluation \u2192 saved model)", "weeks": [{"w": "Week 1", "t": "ML fundamentals: splits, CV, bias/variance, preprocessing & feature engineering"}, {"w": "Week 2", "t": "Models: regression, classification, ensembles, clustering + metrics"}, {"w": "Week 3", "t": "Build: compare 3+ models on one dataset, evaluation report, feature importance"}, {"w": "Week 4", "t": "Productionize: saved model + prediction script, GitHub"}]}, {"n": 6, "level": "INTELLIGENCE", "color": "#eab308", "title": "Deep Learning", "topics": "Neural networks \u2192 PyTorch \u2192 one applied track: CV / NLP / Time-series / Recommenders", "tools": "PyTorch \u00b7 Hugging Face", "project": "Deep Learning Application (one track, done properly)", "weeks": [{"w": "Week 1", "t": "NN fundamentals: activation, backprop, gradient descent, optimizers, regularization"}, {"w": "Week 2", "t": "PyTorch: tensors, Dataset/DataLoader, training loops, GPU training"}, {"w": "Week 3", "t": "Build: train on GPU, transfer learning, checkpoints"}, {"w": "Week 4", "t": "Productionize: inference script, GitHub, demo"}]}, {"n": 7, "level": "PRODUCTION", "color": "#3b82f6", "title": "MLOps", "topics": "ML lifecycle \u2192 MLflow \u2192 model/data versioning \u2192 FastAPI serving \u2192 Docker \u2192 CI/CD (GitHub Actions) \u2192 monitoring \u2192 drift concepts", "tools": "MLflow \u00b7 FastAPI \u00b7 Docker \u00b7 GitHub Actions", "project": "Production ML Platform (training \u2192 MLflow \u2192 FastAPI \u2192 Docker \u2192 CI/CD \u2192 monitoring)", "weeks": [{"w": "Week 1", "t": "ML lifecycle, MLflow experiment tracking, model registry, versioning"}, {"w": "Week 2", "t": "FastAPI model serving + Docker deployment + GitHub Actions CI/CD"}, {"w": "Week 3", "t": "Build: track 5+ experiments, serve model via FastAPI, CI pipeline (test \u2192 build \u2192 push)"}, {"w": "Week 4", "t": "Productionize: logging, basic monitoring, GitHub, demo"}]}, {"n": 8, "level": "PRODUCTION", "color": "#3b82f6", "title": "Backend + System Design", "topics": "REST API design \u2192 FastAPI deep dive \u2192 JWT auth \u2192 PostgreSQL + ORM \u2192 Redis caching \u2192 queues/workers \u2192 rate limiting \u2192 system design fundamentals", "tools": "FastAPI \u00b7 PostgreSQL \u00b7 Redis \u00b7 Celery", "project": "AI Backend Platform (frontend \u2192 API \u2192 auth \u2192 cache \u2192 DB \u2192 ML service \u2192 queue)", "weeks": [{"w": "Week 1", "t": "API design, FastAPI async/middleware/dependency injection"}, {"w": "Week 2", "t": "Auth (JWT), SQLAlchemy/ORM, Redis caching, background queues"}, {"w": "Week 3", "t": "Build: auth-protected API, Redis cache layer, background job, API tests"}, {"w": "Week 4", "t": "Productionize: rate limiting, docs, GitHub, demo"}]}, {"n": 9, "level": "PRODUCTION", "color": "#3b82f6", "title": "AWS Cloud", "topics": "IAM \u2192 EC2 \u2192 S3 \u2192 VPC \u2192 RDS \u2192 Lambda \u2192 API Gateway \u2192 ECR/ECS \u2192 SQS/SNS \u2192 CloudWatch \u2192 Secrets Manager \u2192 Glue/Athena/Redshift + SageMaker/Bedrock (awareness)", "tools": "AWS (free tier / student credits)", "project": "Cloud Deployment \u2014 deploy a prior project as a production AWS architecture", "weeks": [{"w": "Week 1", "t": "AWS fundamentals: IAM, EC2, S3, VPC basics, security"}, {"w": "Week 2", "t": "RDS, Lambda, API Gateway, ECR/ECS, SQS/SNS, CloudWatch, Secrets Manager"}, {"w": "Week 3", "t": "Build: containerize project, DB on RDS, secrets in Secrets Manager"}, {"w": "Week 4", "t": "Productionize: full AWS deployment + monitoring, cost check, demo"}]}, {"n": 10, "level": "MODERN AI", "color": "#a855f7", "title": "GenAI + RAG", "topics": "LLM fundamentals \u2192 prompt engineering \u2192 function/tool calling \u2192 embeddings \u2192 vector DBs \u2192 RAG pipeline \u2192 advanced RAG (hybrid search, reranking, hallucination reduction) \u2192 evaluation", "tools": "LLM API \u00b7 LangChain/LlamaIndex \u00b7 Chroma/pgvector \u00b7 FastAPI", "project": "Production RAG App (documents \u2192 ingestion \u2192 vector DB \u2192 retrieval + rerank \u2192 LLM \u2192 API)", "weeks": [{"w": "Week 1", "t": "LLM fundamentals: tokens, context window, temperature; prompt engineering"}, {"w": "Week 2", "t": "Embeddings, vector DBs, RAG pipeline, advanced retrieval"}, {"w": "Week 3", "t": "Build: chunk & embed real documents, RAG app, golden-set evaluation"}, {"w": "Week 4", "t": "Productionize: FastAPI wrapper, GitHub, demo"}]}, {"n": 11, "level": "MODERN AI", "color": "#a855f7", "title": "AI Agents + Automation", "topics": "Agent architecture \u2192 LangGraph \u2192 tool calling (APIs, DBs, RAG) \u2192 multi-agent concepts \u2192 automation workflows \u2192 reliability \u2192 AI security (prompt injection, guardrails)", "tools": "LangGraph \u00b7 FastAPI \u00b7 cron/EventBridge", "project": "Autonomous Agent (request \u2192 agent \u2192 RAG + tools \u2192 actions \u2192 approval gate \u2192 report)", "weeks": [{"w": "Week 1", "t": "Agent architecture: tools, planning, memory, state; LangGraph graphs"}, {"w": "Week 2", "t": "Tool calling, human-in-the-loop, retries/timeouts, agent security"}, {"w": "Week 3", "t": "Build: agent with 3+ tools, approval step, trajectory logging"}, {"w": "Week 4", "t": "Productionize: scheduled/event triggers, GitHub, demo"}]}, {"n": 12, "level": "MODERN AI", "color": "#a855f7", "title": "Capstone \u2014 Full AI System", "topics": "No new tech \u2014 integrate everything into one production platform", "tools": "Everything from Months 1\u201311 + AWS", "project": "Final Capstone: DataForge + ML Platform + AI Platform combined, deployed live", "weeks": [{"w": "Week 1", "t": "Design capstone architecture; pick strongest pieces from all projects"}, {"w": "Week 2", "t": "Integrate: data pipeline \u2192 ML serving \u2192 LLM/RAG/agents"}, {"w": "Week 3", "t": "Deploy on AWS (Docker + monitoring + security); write docs"}, {"w": "Week 4", "t": "Capstone presentation to the club \ud83c\udf93"}]}];
+
+const LEVELS = [
+  {name:"DATA", color:"#22c55e"},
+  {name:"INTELLIGENCE", color:"#eab308"},
+  {name:"PRODUCTION", color:"#3b82f6"},
+  {name:"MODERN AI", color:"#a855f7"},
+];
+
+const store = {
+  get(){ try{return JSON.parse(localStorage.getItem("atc-progress")||"{}")}catch(e){return{}} },
+  set(s){ localStorage.setItem("atc-progress", JSON.stringify(s)) }
+};
+let state = store.get();
+let filter = "ALL";
+
+function key(m,w){return "m"+m+"w"+w}
+
+/* ---- legend ---- */
+const legend = document.getElementById("legend");
+function renderLegend(){
+  legend.innerHTML = "";
+  ["ALL",...LEVELS.map(l=>l.name)].forEach(l=>{
+    const c = document.createElement("div");
+    c.className = "chip" + (filter===l ? " active":"");
+    c.textContent = l;
+    c.onclick = ()=>{filter=l; renderLegend(); renderMonths();};
+    legend.appendChild(c);
+  });
+}
+
+/* ---- months ---- */
+const box = document.getElementById("months");
+function renderMonths(){
+  box.innerHTML = "";
+  MONTHS.filter(m => filter==="ALL" || m.level===filter).forEach(m=>{
+    const doneW = m.weeks.filter((_,i)=>state[key(m.n,i)]).length;
+    const monthDone = state["done"+m.n];
+    const el = document.createElement("div");
+    el.className = "month";
+    el.innerHTML = `
+      <div class="m-head" onclick="this.parentElement.classList.toggle('open');this.nextElementSibling.style.maxHeight=this.parentElement.classList.contains('open')?this.nextElementSibling.scrollHeight+'px':'0'">
+        <div class="m-num" style="background:${m.color}">${String(m.n).padStart(2,"0")}</div>
+        <div class="m-title"><div class="lvl">${m.level} · MONTH ${m.n}</div><h3>${m.title}</h3></div>
+        <div class="m-badge">${doneW}/4 weeks ✓</div>
+        <div class="m-check ${monthDone?'done':''}" title="Mark month complete" onclick="event.stopPropagation();toggleMonth(${m.n})">✓</div>
+        <div class="m-arrow">▾</div>
+      </div>
+      <div class="m-body"><div class="m-inner">
+        <div class="m-topics"><b>Topics:</b> ${m.topics}</div>
+        ${m.weeks.map((w,i)=>`
+          <div class="week">
+            <div class="w-box ${state[key(m.n,i)]?'done':''}" onclick="toggleTask(${m.n},${i})"></div>
+            <div class="w-name">${w.w}</div>
+            <div class="w-text">${w.t}</div>
+          </div>`).join("")}
+        <div class="m-meta">
+          <div class="pill">🛠️ <b>${m.tools}</b></div>
+          <div class="pill">🚀 <b>${m.project}</b></div>
+        </div>
+        <div class="m-bar"><div class="m-fill" style="width:${doneW/4*100}%"></div></div>
+      </div></div>`;
+    box.appendChild(el);
+  });
+  updateOverall();
+}
+
+function toggleTask(m,i){
+  const k = key(m,i);
+  state[k] = !state[k];
+  if(!state[k]) delete state[k];
+  store.set(state);
+  renderMonths();
+  // keep open the toggled card
+  const idx = MONTHS.filter(mm => filter==="ALL"||mm.level===filter).findIndex(mm=>mm.n===m);
+  const card = box.children[idx];
+  if(card){ card.classList.add("open");
+    const body = card.querySelector(".m-body");
+    body.style.maxHeight = body.scrollHeight+"px";
+  }
+}
+function toggleMonth(m){
+  const k = "done"+m;
+  state[k] = !state[k];
+  if(!state[k]) delete state[k];
+  store.set(state);
+  renderMonths();
+}
+function resetAll(){
+  if(confirm("Reset all progress?")){ state={}; store.set(state); renderMonths(); }
+}
+
+function updateOverall(){
+  let total=0, done=0, monthsDone=0;
+  MONTHS.forEach(m=>{
+    m.weeks.forEach((_,i)=>{total++; if(state[key(m.n,i)])done++;});
+    if(state["done"+m.n]) monthsDone++;
+  });
+  const pct = Math.round(done/total*100);
+  document.getElementById("overallPct").textContent = pct+"%";
+  document.getElementById("overallFill").style.width = pct+"%";
+  document.getElementById("statTasks").textContent = `✅ ${done}/${total} weekly tasks`;
+  document.getElementById("statMonths").textContent = `🏁 ${monthsDone}/12 months completed`;
+}
+
+/* ---- network background ---- */
+const cv = document.getElementById("net"), cx = cv.getContext("2d");
+let W,H,pts=[];
+function resize(){ W=cv.width=innerWidth; H=cv.height=innerHeight;
+  pts = Array.from({length:Math.min(70,W/18)},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4}));
+}
+resize(); addEventListener("resize",resize);
+(function loop(){
+  cx.clearRect(0,0,W,H);
+  pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;
+    if(p.x<0||p.x>W)p.vx*=-1; if(p.y<0||p.y>H)p.vy*=-1;
+    cx.fillStyle="rgba(120,170,255,.6)"; cx.fillRect(p.x-1,p.y-1,2,2);});
+  for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){
+    const a=pts[i],b=pts[j],d=Math.hypot(a.x-b.x,a.y-b.y);
+    if(d<130){cx.strokeStyle=`rgba(90,140,220,${(1-d/130)*.35})`;cx.beginPath();cx.moveTo(a.x,a.y);cx.lineTo(b.x,b.y);cx.stroke();}
+  }
+  requestAnimationFrame(loop);
+})();
+
+renderLegend();
+renderMonths();
+</script>
+</body>
+</html>
