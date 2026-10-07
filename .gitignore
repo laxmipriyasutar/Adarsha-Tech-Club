@@ -23,6 +23,6 @@ build/
 *.log
 npm-debug.log*
 
-# Temporary files
+# Temporary     files
 *.tmp
 *.swp
