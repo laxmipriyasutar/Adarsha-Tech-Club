@@ -18,6 +18,8 @@ node_modules/
 dist/
 build/
 .next/
+.DS_Store
+._*
 
 # Logs
 *.log
