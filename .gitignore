@@ -1,28 +1,34 @@
-# OS files
+# ===== OS files =====
 .DS_Store
 Thumbs.db
+Desktop.ini
 
-# IDE settings
+# ===== IDE / Editor files =====
 .vscode/
 .idea/
+*.swp
+*.swo
+*~
 
-# Dependencies
+# ===== Dependencies =====
 node_modules/
 
-# Environment variables
+# ===== Environment variables =====
 .env
 .env.local
 .env.*.local
 
-# Build output
+# ===== Build output =====
 dist/
 build/
 .next/
 
-# Logs
+# ===== Vercel =====
+.vercel/
+
+# ===== Logs =====
 *.log
 npm-debug.log*
 
-# Temporary files
+# ===== Temporary files =====
 *.tmp
-*.swp
