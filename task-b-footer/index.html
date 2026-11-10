@@ -85,10 +85,254 @@ h1{font-size:clamp(26px,5vw,44px);letter-spacing:3px;margin-top:10px;
   font-size:24px;font-weight:800;color:#081018;background:linear-gradient(135deg,var(--gold),var(--gold2))}
 .t-card h3{font-size:16px;margin-bottom:5px}
 .t-card p{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--gold)}
-footer{text-align:center;color:var(--muted);font-size:12px;margin-top:60px;letter-spacing:1px}
 .btn-row{display:flex;gap:10px;justify-content:center;margin-top:18px;flex-wrap:wrap}
 button.reset{background:#ffa5a5;border:1px solid var(--line);color:#000000;padding:8px 18px;border-radius:99px;font-size:12px;cursor:pointer;transition:.2s}
 button.reset:hover{border-color:#ef4444;color:#ef4444}
+
+/* ========================================
+   TASK B — FOOTER STYLES (Soam)
+   Commit 1: feat(footer): add footer structure with club info
+   Commit 2: style(footer): add responsive footer styles
+   ======================================== */
+
+.site-footer{
+  position:relative;
+  z-index:1;
+  background:#071429;
+  border-top:1px solid var(--line);
+  color:var(--ink);
+  margin-top:60px;
+}
+.footer-top{
+  max-width:1080px;
+  margin:0 auto;
+  padding:50px 24px 30px;
+  display:grid;
+  grid-template-columns:1.5fr 1fr 1fr;
+  gap:40px;
+}
+
+/* --- Footer: Club Info Column --- */
+.footer-brand{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+.footer-brand-title{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.footer-brand-title img{
+  width:40px;
+  height:40px;
+  border-radius:10px;
+  filter:drop-shadow(0 0 8px rgba(212,175,55,0.3));
+}
+.footer-brand-title h3{
+  font-size:20px;
+  letter-spacing:2px;
+  background:linear-gradient(180deg,#ffffff 30%,var(--gold2));
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+.footer-tagline{
+  font-size:13px;
+  color:var(--gold);
+  letter-spacing:3px;
+  text-transform:uppercase;
+}
+.footer-description{
+  font-size:14px;
+  line-height:1.7;
+  color:var(--muted);
+  max-width:320px;
+}
+
+/* --- Footer: Quick Links Column --- */
+.footer-section h4{
+  font-size:12px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:18px;
+  position:relative;
+  padding-bottom:10px;
+}
+.footer-section h4::after{
+  content:"";
+  position:absolute;
+  bottom:0;
+  left:0;
+  width:30px;
+  height:2px;
+  background:var(--gold);
+  border-radius:99px;
+}
+.footer-links{
+  list-style:none;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.footer-links li a{
+  text-decoration:none;
+  color:var(--muted);
+  font-size:14px;
+  transition:all 0.25s ease;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+}
+.footer-links li a:hover{
+  color:var(--gold);
+  transform:translateX(4px);
+}
+.footer-links li a::before{
+  content:"›";
+  font-size:16px;
+  color:var(--line);
+  transition:color 0.25s;
+}
+.footer-links li a:hover::before{
+  color:var(--gold);
+}
+
+/* --- Footer: Contact Column --- */
+.footer-contact-item{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  margin-bottom:14px;
+  font-size:14px;
+  color:var(--muted);
+  line-height:1.5;
+}
+.footer-contact-item .icon{
+  font-size:16px;
+  min-width:20px;
+  text-align:center;
+  padding-top:2px;
+}
+.footer-contact-item a{
+  color:var(--muted);
+  text-decoration:none;
+  transition:color 0.25s;
+}
+.footer-contact-item a:hover{
+  color:var(--gold);
+}
+
+/* --- Footer: Social Links --- */
+.footer-social{
+  display:flex;
+  gap:10px;
+  margin-top:18px;
+}
+.footer-social a{
+  width:38px;
+  height:38px;
+  border-radius:10px;
+  border:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+  font-size:18px;
+  color:var(--muted);
+  transition:all 0.25s ease;
+  background:rgba(255,255,255,0.03);
+}
+.footer-social a:hover{
+  border-color:var(--gold);
+  color:var(--gold);
+  transform:translateY(-3px);
+  box-shadow:0 6px 20px rgba(212,175,55,0.15);
+}
+
+/* --- Footer: Bottom Bar --- */
+.footer-bottom{
+  max-width:1080px;
+  margin:0 auto;
+  padding:20px 24px;
+  border-top:1px solid var(--line);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:10px;
+}
+.footer-copyright{
+  font-size:12px;
+  color:var(--muted);
+  letter-spacing:0.5px;
+}
+.footer-copyright span{
+  color:var(--gold);
+}
+.footer-bottom-links{
+  display:flex;
+  gap:20px;
+}
+.footer-bottom-links a{
+  font-size:12px;
+  color:var(--muted);
+  text-decoration:none;
+  transition:color 0.25s;
+}
+.footer-bottom-links a:hover{
+  color:var(--gold);
+}
+
+/* --- Footer: Responsive (mobile) --- */
+@media(max-width:768px){
+  .footer-top{
+    grid-template-columns:1fr;
+    gap:30px;
+    padding:36px 20px 24px;
+  }
+  .footer-brand{
+    text-align:center;
+    align-items:center;
+  }
+  .footer-brand-title{
+    justify-content:center;
+  }
+  .footer-description{
+    text-align:center;
+    max-width:none;
+  }
+  .footer-section h4::after{
+    left:50%;
+    transform:translateX(-50%);
+  }
+  .footer-section{
+    text-align:center;
+  }
+  .footer-links{
+    align-items:center;
+  }
+  .footer-social{
+    justify-content:center;
+  }
+  .footer-bottom{
+    flex-direction:column;
+    text-align:center;
+    gap:8px;
+  }
+}
+
+@media(max-width:480px){
+  .footer-top{
+    padding:28px 16px 20px;
+  }
+  .footer-bottom{
+    padding:16px;
+  }
+}
+
+/* ===== END FOOTER STYLES ===== */
 </style>
 </head>
 <body>
@@ -100,7 +344,7 @@ button.reset:hover{border-color:#ef4444;color:#ef4444}
     <div class="crest"><img src="ATC_Logo_1.png" alt="ATC_Logo" style="width:100px;height:100px;"> </div>
     <h1>ADARSHA TECH CLUB</h1>
     <div class="tag">Learn · Build · Innovate</div>
-    <p class="sub">16-Month Data → AI Engineering Program — 4 Levels · 12 Months · 12 Projects · 1 Capstone.
+    <p class="sub">12-Month Data → AI Engineering Program - 4 Levels · 12 Months · 12 Projects · 1 Capstone.
     Track your weekly progress below. Your checks are saved in this browser.</p>
   </header>
 
@@ -125,9 +369,108 @@ button.reset:hover{border-color:#ef4444;color:#ef4444}
       <div class="t-card"><div class="avatar"><img src="Sai.jpeg" style="width:95px;height:90px;border-radius: 50%;"></div><h3 style="color: aliceblue;">Soumyasai Tripathy</h3><p>Co-Lead</p></div>
     </div>
   </section>
-
-  <footer style="color: #000000;">. © Adarsha Tech Club ·</footer>
 </div>
+
+<!-- ========================================
+     TASK B — FOOTER COMPONENT (Soam)
+     Commit 1: feat(footer): add footer structure with club info
+     Commit 2: style(footer): add responsive footer styles
+     Reviewer: Laxmipriya
+     ======================================== -->
+<footer class="site-footer" aria-label="Site Footer">
+  <!-- Footer Top: 3-column grid -->
+  <div class="footer-top">
+
+    <!-- Column 1: Club Info & Tagline -->
+    <div class="footer-brand">
+      <div class="footer-brand-title">
+        <img src="ATC_Logo_1.png" alt="Adarsha Tech Club Logo">
+        <h3>ADARSHA TECH CLUB</h3>
+      </div>
+      <div class="footer-tagline">Learn · Build · Innovate</div>
+      <p class="footer-description">
+        A student-led technology club dedicated to building real-world engineering skills
+        through a 12-month structured program covering Data, Intelligence, Production, and Modern AI.
+      </p>
+    </div>
+
+    <!-- Column 2: Quick Links -->
+    <div class="footer-section">
+      <h4>Quick Links</h4>
+      <ul class="footer-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#events">Events</a></li>
+        <li><a href="#members">Members</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+      </ul>
+    </div>
+
+    <!-- Column 3: Contact & Social -->
+    <div class="footer-section">
+      <h4>Get In Touch</h4>
+      <div class="footer-contact-item">
+        <span class="icon">📧</span>
+        <a href="mailto:contact@adarshatechclub.com">contact@adarshatechclub.com</a>
+      </div>
+      <div class="footer-contact-item">
+        <span class="icon">📍</span>
+        <span>Adarsha Vidyalaya, Odisha, India</span>
+      </div>
+      <div class="footer-contact-item">
+        <span class="icon">🌐</span>
+        <a href="https://github.com/Adarsha-Tech-Club" target="_blank" rel="noopener noreferrer">GitHub Organization</a>
+      </div>
+
+      <!-- Social Media Links -->
+      <div class="footer-social">
+        <a href="https://github.com/Adarsha-Tech-Club" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+          <!-- GitHub SVG Icon -->
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+          </svg>
+        </a>
+        <a href="mailto:contact@adarshatechclub.com" aria-label="Email">
+          <!-- Mail Icon -->
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+          </svg>
+        </a>
+        <a href="#" aria-label="Twitter / X">
+          <!-- X / Twitter Icon -->
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+          </svg>
+        </a>
+        <a href="#" aria-label="LinkedIn">
+          <!-- LinkedIn Icon -->
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer Bottom Bar -->
+  <div class="footer-bottom">
+    <p class="footer-copyright">
+      © <span id="footerYear"></span> <span>Adarsha Tech Club</span>. All rights reserved. Built with ❤️ by ATC members.
+    </p>
+    <div class="footer-bottom-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Use</a>
+      <a href="https://github.com/Adarsha-Tech-Club" target="_blank" rel="noopener noreferrer">Contribute</a>
+    </div>
+  </div>
+</footer>
+<!-- ===== END FOOTER ===== -->
+
+<!-- Footer Year Script -->
+<script>
+  document.getElementById('footerYear').textContent = new Date().getFullYear();
+</script>
 
 <script>
 const MONTHS = [{"n": 1, "level": "DATA", "color": "#22c55e", "title": "Foundations", "topics": "Python (core + engineering) \u2192 SQL \u2192 PostgreSQL \u2192 Git/GitHub \u2192 HTTP/REST/JSON \u2192 basic statistics", "tools": "Python \u00b7 Pandas \u00b7 NumPy \u00b7 PostgreSQL \u00b7 Git", "project": "API \u2192 Python \u2192 PostgreSQL \u2192 SQL analytics", "weeks": [{"w": "Week 1", "t": "Python core: functions, OOP, error handling, file I/O"}, {"w": "Week 2", "t": "Advanced SQL + PostgreSQL: JOINs, CTEs, window functions, schema design"}, {"w": "Week 3", "t": "Build: call/scrape an API, load into PostgreSQL, write 10+ analytical queries"}, {"w": "Week 4", "t": "Productionize: GitHub repo, README, documented queries + insights report"}]}, {"n": 2, "level": "DATA", "color": "#22c55e", "title": "Data Engineering Core", "topics": "ETL vs ELT \u2192 batch processing \u2192 data formats (CSV/JSON/Parquet) \u2192 validation & idempotent pipelines \u2192 data warehouse vs lake \u2192 Airflow \u2192 Docker", "tools": "Airflow \u00b7 Docker \u00b7 Pandas \u00b7 SQL", "project": "Automated ETL Pipeline (files/APIs \u2192 transform \u2192 PostgreSQL, Airflow-orchestrated, in Docker)", "weeks": [{"w": "Week 1", "t": "ETL/ELT concepts, batch processing, data formats, validation"}, {"w": "Week 2", "t": "Airflow DAGs, operators, scheduling, retries + Docker fundamentals"}, {"w": "Week 3", "t": "Build: 3+ task DAG with dependencies, containerize the pipeline"}, {"w": "Week 4", "t": "Productionize: logging + retry logic, GitHub, demo"}]}, {"n": 3, "level": "DATA", "color": "#22c55e", "title": "Big Data & Streaming", "topics": "Kafka \u2192 event-driven architecture \u2192 Spark/PySpark \u2192 NoSQL (MongoDB/Cassandra) \u2192 CDC concepts", "tools": "Kafka \u00b7 PySpark \u00b7 MongoDB/Cassandra", "project": "Real-Time Data Platform (API \u2192 Kafka \u2192 Spark \u2192 DB \u2192 live dashboard)", "weeks": [{"w": "Week 1", "t": "Kafka: topics, partitions, producers/consumers, consumer groups"}, {"w": "Week 2", "t": "PySpark DataFrames, Spark SQL, partitions, joins, caching"}, {"w": "Week 3", "t": "Build: produce/consume messages, 3 PySpark transformations, load to NoSQL + SQL"}, {"w": "Week 4", "t": "Productionize: live dashboard, GitHub, demo"}]}, {"n": 4, "level": "INTELLIGENCE", "color": "#eab308", "title": "Analytics + Statistics", "topics": "EDA \u2192 probability & distributions \u2192 hypothesis testing \u2192 A/B testing \u2192 visualization \u2192 Power BI \u2192 business KPIs", "tools": "Pandas \u00b7 Matplotlib/Plotly \u00b7 Power BI", "project": "BI System (data \u2192 cleaning \u2192 analysis \u2192 dashboard \u2192 business recommendations)", "weeks": [{"w": "Week 1", "t": "EDA with Pandas; cleaning: missing values, outliers"}, {"w": "Week 2", "t": "Probability, distributions, hypothesis testing (t-test, p-values, CI)"}, {"w": "Week 3", "t": "Build: full EDA on messy dataset + one end-to-end hypothesis test"}, {"w": "Week 4", "t": "Productionize: KPI dashboard with filters, written recommendations"}]}, {"n": 5, "level": "INTELLIGENCE", "color": "#eab308", "title": "Machine Learning", "topics": "Train/val/test \u2192 cross-validation \u2192 preprocessing \u2192 regression \u2192 classification \u2192 ensembles (XGBoost/LightGBM) \u2192 clustering \u2192 metrics \u2192 tuning", "tools": "scikit-learn \u00b7 XGBoost/LightGBM", "project": "End-to-End ML Prediction System (preprocessing \u2192 training \u2192 evaluation \u2192 saved model)", "weeks": [{"w": "Week 1", "t": "ML fundamentals: splits, CV, bias/variance, preprocessing & feature engineering"}, {"w": "Week 2", "t": "Models: regression, classification, ensembles, clustering + metrics"}, {"w": "Week 3", "t": "Build: compare 3+ models on one dataset, evaluation report, feature importance"}, {"w": "Week 4", "t": "Productionize: saved model + prediction script, GitHub"}]}, {"n": 6, "level": "INTELLIGENCE", "color": "#eab308", "title": "Deep Learning", "topics": "Neural networks \u2192 PyTorch \u2192 one applied track: CV / NLP / Time-series / Recommenders", "tools": "PyTorch \u00b7 Hugging Face", "project": "Deep Learning Application (one track, done properly)", "weeks": [{"w": "Week 1", "t": "NN fundamentals: activation, backprop, gradient descent, optimizers, regularization"}, {"w": "Week 2", "t": "PyTorch: tensors, Dataset/DataLoader, training loops, GPU training"}, {"w": "Week 3", "t": "Build: train on GPU, transfer learning, checkpoints"}, {"w": "Week 4", "t": "Productionize: inference script, GitHub, demo"}]}, {"n": 7, "level": "PRODUCTION", "color": "#3b82f6", "title": "MLOps", "topics": "ML lifecycle \u2192 MLflow \u2192 model/data versioning \u2192 FastAPI serving \u2192 Docker \u2192 CI/CD (GitHub Actions) \u2192 monitoring \u2192 drift concepts", "tools": "MLflow \u00b7 FastAPI \u00b7 Docker \u00b7 GitHub Actions", "project": "Production ML Platform (training \u2192 MLflow \u2192 FastAPI \u2192 Docker \u2192 CI/CD \u2192 monitoring)", "weeks": [{"w": "Week 1", "t": "ML lifecycle, MLflow experiment tracking, model registry, versioning"}, {"w": "Week 2", "t": "FastAPI model serving + Docker deployment + GitHub Actions CI/CD"}, {"w": "Week 3", "t": "Build: track 5+ experiments, serve model via FastAPI, CI pipeline (test \u2192 build \u2192 push)"}, {"w": "Week 4", "t": "Productionize: logging, basic monitoring, GitHub, demo"}]}, {"n": 8, "level": "PRODUCTION", "color": "#3b82f6", "title": "Backend + System Design", "topics": "REST API design \u2192 FastAPI deep dive \u2192 JWT auth \u2192 PostgreSQL + ORM \u2192 Redis caching \u2192 queues/workers \u2192 rate limiting \u2192 system design fundamentals", "tools": "FastAPI \u00b7 PostgreSQL \u00b7 Redis \u00b7 Celery", "project": "AI Backend Platform (frontend \u2192 API \u2192 auth \u2192 cache \u2192 DB \u2192 ML service \u2192 queue)", "weeks": [{"w": "Week 1", "t": "API design, FastAPI async/middleware/dependency injection"}, {"w": "Week 2", "t": "Auth (JWT), SQLAlchemy/ORM, Redis caching, background queues"}, {"w": "Week 3", "t": "Build: auth-protected API, Redis cache layer, background job, API tests"}, {"w": "Week 4", "t": "Productionize: rate limiting, docs, GitHub, demo"}]}, {"n": 9, "level": "PRODUCTION", "color": "#3b82f6", "title": "AWS Cloud", "topics": "IAM \u2192 EC2 \u2192 S3 \u2192 VPC \u2192 RDS \u2192 Lambda \u2192 API Gateway \u2192 ECR/ECS \u2192 SQS/SNS \u2192 CloudWatch \u2192 Secrets Manager \u2192 Glue/Athena/Redshift + SageMaker/Bedrock (awareness)", "tools": "AWS (free tier / student credits)", "project": "Cloud Deployment \u2014 deploy a prior project as a production AWS architecture", "weeks": [{"w": "Week 1", "t": "AWS fundamentals: IAM, EC2, S3, VPC basics, security"}, {"w": "Week 2", "t": "RDS, Lambda, API Gateway, ECR/ECS, SQS/SNS, CloudWatch, Secrets Manager"}, {"w": "Week 3", "t": "Build: containerize project, DB on RDS, secrets in Secrets Manager"}, {"w": "Week 4", "t": "Productionize: full AWS deployment + monitoring, cost check, demo"}]}, {"n": 10, "level": "MODERN AI", "color": "#a855f7", "title": "GenAI + RAG", "topics": "LLM fundamentals \u2192 prompt engineering \u2192 function/tool calling \u2192 embeddings \u2192 vector DBs \u2192 RAG pipeline \u2192 advanced RAG (hybrid search, reranking, hallucination reduction) \u2192 evaluation", "tools": "LLM API \u00b7 LangChain/LlamaIndex \u00b7 Chroma/pgvector \u00b7 FastAPI", "project": "Production RAG App (documents \u2192 ingestion \u2192 vector DB \u2192 retrieval + rerank \u2192 LLM \u2192 API)", "weeks": [{"w": "Week 1", "t": "LLM fundamentals: tokens, context window, temperature; prompt engineering"}, {"w": "Week 2", "t": "Embeddings, vector DBs, RAG pipeline, advanced retrieval"}, {"w": "Week 3", "t": "Build: chunk & embed real documents, RAG app, golden-set evaluation"}, {"w": "Week 4", "t": "Productionize: FastAPI wrapper, GitHub, demo"}]}, {"n": 11, "level": "MODERN AI", "color": "#a855f7", "title": "AI Agents + Automation", "topics": "Agent architecture \u2192 LangGraph \u2192 tool calling (APIs, DBs, RAG) \u2192 multi-agent concepts \u2192 automation workflows \u2192 reliability \u2192 AI security (prompt injection, guardrails)", "tools": "LangGraph \u00b7 FastAPI \u00b7 cron/EventBridge", "project": "Autonomous Agent (request \u2192 agent \u2192 RAG + tools \u2192 actions \u2192 approval gate \u2192 report)", "weeks": [{"w": "Week 1", "t": "Agent architecture: tools, planning, memory, state; LangGraph graphs"}, {"w": "Week 2", "t": "Tool calling, human-in-the-loop, retries/timeouts, agent security"}, {"w": "Week 3", "t": "Build: agent with 3+ tools, approval step, trajectory logging"}, {"w": "Week 4", "t": "Productionize: scheduled/event triggers, GitHub, demo"}]}, {"n": 12, "level": "MODERN AI", "color": "#a855f7", "title": "Capstone \u2014 Full AI System", "topics": "No new tech \u2014 integrate everything into one production platform", "tools": "Everything from Months 1\u201311 + AWS", "project": "Final Capstone: DataForge + ML Platform + AI Platform combined, deployed live", "weeks": [{"w": "Week 1", "t": "Design capstone architecture; pick strongest pieces from all projects"}, {"w": "Week 2", "t": "Integrate: data pipeline \u2192 ML serving \u2192 LLM/RAG/agents"}, {"w": "Week 3", "t": "Deploy on AWS (Docker + monitoring + security); write docs"}, {"w": "Week 4", "t": "Capstone presentation to the club \ud83c\udf93"}]}];
